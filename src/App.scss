@@ -1,5 +1,6 @@
 @import './layouts/variables';
+@import './layouts/normolize';
 
-*{
-  color: $prime;
+:root{
+    font-size: 16px;
 }

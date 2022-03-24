@@ -3,33 +3,21 @@ import cx from 'classnames'
 import axios from 'axios'
 
 import YandexSelect from './YandexSelect/YandexSelect'
+import InfoBlockDay from './InfoBlockDay/InfoBlockDay'
 import yandex from './yandex.module.scss'
 
 
 const Yandex: React.FC = () => {
-
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
-
-    const [nameCountry, setNameCountry] = useState<any>('Please country')
-    const [nameLocality, setNameLocality] = useState<any>('Please locality')
-    const [nameProvince, setNameProvince] = useState<any>('Please Load')
-    const [iconWeather, setIconWeather] = useState<string>('')
-
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
-    
-    const [temp, setTemp] = useState<any>('Load temp')
-
-
-
+    const [objGeo, setObjGeo] = useState<any>()
+    const [objFact, setObjFact] = useState<any>()
     const API_KEY = process.env.REACT_APP_API_KEY;
-
-
-
 
     const getWether = (lat: string | number, lon: string | number) => {
         setLoadStatus(false)
-        const url = `/v2/forecast?lat=${lat}&lon=${lon}`
+        const url = `/v2/forecast?lat=${lat}&lon=${lon}&[limit=2]`
         axios
             .get(url, {
                 headers: {
@@ -39,13 +27,9 @@ const Yandex: React.FC = () => {
             .then((res) => {
                 console.log(res)
                 const dataObj = res.data
-                setNameCountry(dataObj.geo_object.country.name)
-                setNameLocality(dataObj.geo_object.locality.name)
-                setNameProvince(dataObj.geo_object.province.name)
-                setIconWeather(dataObj.fact.icon)
-                setTemp(dataObj.fact.temp)
+                setObjGeo(dataObj.geo_object)
+                setObjFact(dataObj.fact)
                 setLoadStatus(true)
-
             })
             .catch((err) => {
                 console.log(err)
@@ -57,7 +41,7 @@ const Yandex: React.FC = () => {
         //         }
         //     })
         //     console.log(data);
-            
+
     }
 
     useEffect(() => {
@@ -66,21 +50,18 @@ const Yandex: React.FC = () => {
 
     return (
         <div className={cx(
-            yandex['yandex'],
+            yandex['yandex'],{
+
+            }
         )}>
             <YandexSelect setPointLat={setPointLat} setPointLon={setPointLon} getWether={getWether} />
-            {loadStatus ?
-                (<div className="">
-                    <p>Страна: {nameCountry}</p>
-                    <p>Область: {nameProvince}</p>
-                    <p>Город: {nameLocality}</p>
-                    <p>Температура: {temp}</p>
-                    <img src={`https://yastatic.net/weather/i/icons/funky/dark/${iconWeather}.svg`} alt="" />
-                </div>) :
-                (
-                    <p>Loading...</p>
-                )
-            }
+            <InfoBlockDay
+                loadStatus={loadStatus}
+                objGeo={objGeo}
+                objFact={objFact}
+            />
+
+
         </div>
     )
 }

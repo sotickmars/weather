@@ -1,0 +1,24 @@
+.city-info{
+   
+    &__wrapper-info{
+        &_city{
+            li{
+                display: flex;
+                align-items: start;
+                &:not(:last-child){
+                    margin-bottom: 1rem;
+                }
+            }
+            p{
+                font-size: 1.5rem;
+                &:first-of-type{
+                    width: 7.5rem;
+                }
+                &:last-of-type{
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}

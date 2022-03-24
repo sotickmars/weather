@@ -1,0 +1,24 @@
+.part-info{
+    &__wrapper-more{
+        &_drops{
+            padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            &:not(:last-child){
+                margin-bottom: 1.25rem;
+            }
+            img{
+                width: 2.5rem;
+            }
+            &-info{
+                padding-left: 1.5rem;
+                font-size: 1.5rem;
+                font-weight: 600;
+                &-unit{
+                    padding-left: 0.25em    
+                }
+            }
+        }
+
+    }
+}

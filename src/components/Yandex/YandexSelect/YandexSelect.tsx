@@ -43,7 +43,7 @@ const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getW
         getWether(item.lat, item.lon)
     }
 
-    const openSelect = (value:boolean) =>{
+    const openSelect = (value: boolean) => {
         setStatusSelect(value)
     }
 
@@ -52,24 +52,40 @@ const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getW
             yandexSelect['yandex-select'],
         )}>
             <div className={cx(
-                yandexSelect['yandex-select__wrapper-select'],
+                yandexSelect['yandex-select__wrapper'],
             )}>
-                <input type="text" value={selectValue}
-                    onClick={()=>openSelect(true)}
-                    onBlur={()=>setStatusSelect(false)}
-                readOnly />
-                {statusSelect && (
-                    <ul>
-                        {
-                            objCity.map(items => {
-                                return (
-                                    <li key={items.id} onMouseDown={() => handleSelectValue(items)}>{items.city}</li>
-                                )
-                            })
-                        }
-                    </ul>
-                )}
+                <p className={cx(
+                    yandexSelect['yandex-select__wrapper_title'],
+                )}>Ввыберите город из списка</p>
+                <div className={cx(
+                    yandexSelect['yandex-select__wrapper-select'],
+                )}>
+                    <input
+                        className={cx(
+                            yandexSelect['yandex-select__wrapper-select_input']
+                        )}
+                        type="text" value={selectValue}
+                        onClick={() => openSelect(true)}
+                        onBlur={() => setStatusSelect(false)}
+                        placeholder={'Список городов'}
+                        readOnly />
+                    {statusSelect && (
+                        <ul
+                            className={cx(
+                                yandexSelect['yandex-select__wrapper-select_drop']
+                            )}
+                        >
+                            {
+                                objCity.map(items => {
+                                    return (
+                                        <li key={items.id} onMouseDown={() => handleSelectValue(items)}>{items.city}</li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    )}
 
+                </div>
             </div>
         </div>
     )
