@@ -11,6 +11,7 @@ const Yandex: React.FC = () => {
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
+    const [dataWhether, setDataWhether] = useState<any>()
     const [objGeo, setObjGeo] = useState<any>()
     const [objFact, setObjFact] = useState<any>()
     const API_KEY = process.env.REACT_APP_API_KEY;
@@ -27,6 +28,7 @@ const Yandex: React.FC = () => {
             .then((res) => {
                 console.log(res)
                 const dataObj = res.data
+                setDataWhether(dataObj)
                 setObjGeo(dataObj.geo_object)
                 setObjFact(dataObj.fact)
                 setLoadStatus(true)
@@ -59,6 +61,7 @@ const Yandex: React.FC = () => {
                 loadStatus={loadStatus}
                 objGeo={objGeo}
                 objFact={objFact}
+                dataWhether={dataWhether}
             />
 
 

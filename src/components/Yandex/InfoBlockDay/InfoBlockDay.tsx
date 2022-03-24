@@ -13,6 +13,7 @@ import Graphic from './Graphic/Graphic'
 
 const InfoBlockDay: React.FC<IPropsInfoBlockDay> = ({
     loadStatus,
+    dataWhether,
     objGeo,
     objFact
 }) => {
@@ -50,6 +51,7 @@ const InfoBlockDay: React.FC<IPropsInfoBlockDay> = ({
                 return '';
         }
     }
+
     const checkStatusWeather = (key: number) => {
 
         switch (key) {
@@ -130,14 +132,14 @@ const InfoBlockDay: React.FC<IPropsInfoBlockDay> = ({
                             className={cx(
                                 infoBlockDay['info-block__wrapper-info_cloudness']
                             )}
-                        >{checkStatusWeather(objFact.cloudness)}
+                        ><b>СЕЙЧАС:</b> {checkStatusWeather(objFact.cloudness)}
                         </p>
                         <div className={cx(
                             infoBlockDay['info-block__wrapper-info_temp']
                         )}>
                             <img src={`https://yastatic.net/weather/i/icons/funky/dark/${objFact.icon}.svg`} alt="" />
                             <p>
-                                {objFact.temp >= 0 ? '+' + objFact.temp : '-' + objFact.temp}
+                                {objFact.temp >= 0 ? '+' + objFact.temp : objFact.temp}
                             </p>
                             <span
                                 className={cx(
@@ -160,7 +162,7 @@ const InfoBlockDay: React.FC<IPropsInfoBlockDay> = ({
                         <PartInfo img={WindSvg} statusWeather={objFact.wind_speed} unit={'м.с.'} />
                         <PartInfo img={WindDirSvg} statusWeather={checkStatusWind(objFact.wind_dir)} unit={'направление'} />
                     </div>
-                    <Graphic />
+                    <Graphic dataWhether={dataWhether}/>
                 </>
             ):(
                     <div className={cx(

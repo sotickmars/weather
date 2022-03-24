@@ -6,6 +6,7 @@ export type IPropsPosition = {
 
 export type IPropsInfoBlockDay = {
     loadStatus: boolean
+    dataWhether: any
     objGeo: any
     objFact: any
 }

@@ -29,6 +29,12 @@ const objCity = [
         lat: '-36.8485',
         lon: '174.763',
     },
+    {
+        id: 5,
+        city: 'Бальсфорд',
+        lat: '69.3907',
+        lon: '18.5712',
+    },
 ]
 
 const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getWether }) => {
