@@ -1,0 +1,9 @@
+.weekCard{
+    &__wrapper-date{}
+    &__wrapper-icon{
+        &_icon{
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+}

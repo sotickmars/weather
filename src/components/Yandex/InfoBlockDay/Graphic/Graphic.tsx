@@ -1,6 +1,6 @@
 import React from "react";
 import cx from 'classnames';
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts'
+import { ResponsiveContainer, AreaChart, Legend, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts'
 import graphic from './graphic.module.scss'
 
 type IPropsGraphic = {
@@ -69,7 +69,7 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
                         dataKey={'temp'}
                         axisLine={false}
                         tickLine={false}
-                        tickCount={10}
+                        tickCount={8}
                     />
                     <Tooltip content={<CustomTooltip active={null} payload={null} label={null} />} />
                     <CartesianGrid opacity={0.5} vertical={false} />

@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import YandexSelect from './YandexSelect/YandexSelect'
 import InfoBlockDay from './InfoBlockDay/InfoBlockDay'
+import InfoBlock from './InfoBlock/InfoBlock'
+import WeekCard from './WeekCard/WeekCard'
 import yandex from './yandex.module.scss'
 
 
@@ -14,6 +16,7 @@ const Yandex: React.FC = () => {
     const [dataWhether, setDataWhether] = useState<any>()
     const [objGeo, setObjGeo] = useState<any>()
     const [objFact, setObjFact] = useState<any>()
+    const [objWeek, setObjWeek] = useState<any>()
     const API_KEY = process.env.REACT_APP_API_KEY;
 
     const getWether = (lat: string | number, lon: string | number) => {
@@ -31,6 +34,7 @@ const Yandex: React.FC = () => {
                 setDataWhether(dataObj)
                 setObjGeo(dataObj.geo_object)
                 setObjFact(dataObj.fact)
+                setObjWeek(dataObj.forecasts)
                 setLoadStatus(true)
             })
             .catch((err) => {
@@ -43,18 +47,35 @@ const Yandex: React.FC = () => {
         //         }
         //     })
         //     console.log(data);
-
     }
+
+
+
+    const openWeekStatus = (objWeek: any) => {
+        objWeek.map((items: any) => {
+            return (
+                <div className="">
+                    {items.date}
+                </div>
+            )
+        })
+    }
+
+    if (loadStatus) {
+        openWeekStatus(objWeek)
+    }
+
 
     useEffect(() => {
         getWether(pointLat, pointLon)
     }, [])
 
+
     return (
         <div className={cx(
-            yandex['yandex'],{
+            yandex['yandex'], {
 
-            }
+        }
         )}>
             <YandexSelect setPointLat={setPointLat} setPointLon={setPointLon} getWether={getWether} />
             <InfoBlockDay
@@ -63,7 +84,23 @@ const Yandex: React.FC = () => {
                 objFact={objFact}
                 dataWhether={dataWhether}
             />
-
+            <InfoBlock>
+                {loadStatus ?
+                    (
+                        objWeek.map((items: any) => {
+                            return (
+                                <WeekCard key={items.date_ts} items={items} />
+                            )
+                        })
+                    )
+                    :
+                    (
+                        <p>
+                            Loading...
+                        </p>
+                    )
+                }
+            </InfoBlock>
 
         </div>
     )
