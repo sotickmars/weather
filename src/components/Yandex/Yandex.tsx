@@ -6,10 +6,12 @@ import YandexSelect from './YandexSelect/YandexSelect'
 import InfoBlockDay from './InfoBlockDay/InfoBlockDay'
 import InfoBlock from './InfoBlock/InfoBlock'
 import WeekCard from './WeekCard/WeekCard'
+import WeekGraphic from './WeekGraphic/WeekGraphic'
 import yandex from './yandex.module.scss'
 
 
 const Yandex: React.FC = () => {
+    const [checkStatusWeekDay, setCheckStatusWeekDay] = useState<boolean>(false)
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
@@ -17,6 +19,8 @@ const Yandex: React.FC = () => {
     const [objGeo, setObjGeo] = useState<any>()
     const [objFact, setObjFact] = useState<any>()
     const [objWeek, setObjWeek] = useState<any>()
+    const [checkWeekDayIndex, setCheckWeekDayIndex] = useState<number | null>(null)
+
     const API_KEY = process.env.REACT_APP_API_KEY;
 
     const getWether = (lat: string | number, lon: string | number) => {
@@ -50,6 +54,9 @@ const Yandex: React.FC = () => {
     }
 
 
+    const checkWeekDay = () =>{
+
+    }
 
     const openWeekStatus = (objWeek: any) => {
         objWeek.map((items: any) => {
@@ -86,13 +93,28 @@ const Yandex: React.FC = () => {
             />
             <InfoBlock>
                 {loadStatus ?
-                    (
-                        objWeek.map((items: any) => {
+                    <>
+                        {objWeek.map((items: any, index: number) => {
+                            
                             return (
-                                <WeekCard key={items.date_ts} items={items} />
+                                <WeekCard
+                                    key={items.date_ts}
+                                    items={items}
+                                    index={index}
+                                    setCheckWeekDayIndex={setCheckWeekDayIndex}
+                                />
                             )
-                        })
-                    )
+                        })}
+
+                        {checkStatusWeekDay ?
+                            <WeekGraphic
+                                objWeekDay={objWeek}
+                                checkWeekDayIndex={checkWeekDayIndex}
+                            /> 
+                            :
+                            ('')
+                        }
+                    </>
                     :
                     (
                         <p>
