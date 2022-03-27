@@ -12,6 +12,7 @@ import yandex from './yandex.module.scss'
 
 const Yandex: React.FC = () => {
     const [checkStatusWeekDay, setCheckStatusWeekDay] = useState<boolean>(false)
+
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
@@ -22,6 +23,10 @@ const Yandex: React.FC = () => {
     const [checkWeekDayIndex, setCheckWeekDayIndex] = useState<number | null>(null)
 
     const API_KEY = process.env.REACT_APP_API_KEY;
+
+    const checkWeekDay = () => {
+
+    }
 
     const getWether = (lat: string | number, lon: string | number) => {
         setLoadStatus(false)
@@ -51,11 +56,6 @@ const Yandex: React.FC = () => {
         //         }
         //     })
         //     console.log(data);
-    }
-
-
-    const checkWeekDay = () =>{
-
     }
 
     const openWeekStatus = (objWeek: any) => {
@@ -95,22 +95,24 @@ const Yandex: React.FC = () => {
                 {loadStatus ?
                     <>
                         {objWeek.map((items: any, index: number) => {
-                            
+
                             return (
                                 <WeekCard
                                     key={items.date_ts}
                                     items={items}
+
                                     index={index}
+                                    checkWeekDayIndex={checkWeekDayIndex}
                                     setCheckWeekDayIndex={setCheckWeekDayIndex}
                                 />
                             )
                         })}
 
-                        {checkStatusWeekDay ?
+                        {checkWeekDayIndex !== null ?
                             <WeekGraphic
                                 objWeekDay={objWeek}
                                 checkWeekDayIndex={checkWeekDayIndex}
-                            /> 
+                            />
                             :
                             ('')
                         }

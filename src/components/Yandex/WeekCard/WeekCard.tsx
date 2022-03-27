@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import cx from 'classnames'
 import weekCard from './weekCard.module.scss'
 
 type IPropsWeek = {
     items: any
-    index:number
-    setCheckWeekDayIndex: any
+    index: number
+    checkWeekDayIndex:any
+    setCheckWeekDayIndex: (value: any) => void
+    // setCheckStatusWeekDay: (value: any) => void
 }
 
-const WeekCard: React.FC<IPropsWeek> = ({ items, setCheckWeekDayIndex, index }) => {
+const WeekCard: React.FC<IPropsWeek> = ({ items, checkWeekDayIndex, setCheckWeekDayIndex, index }) => {
     const [cardStatus, setCardStatus] = useState<boolean>(false)
+    // const [cardStatusIndex, setCardStatusIndex] = useState<number>(index)
     const [maxTemp, setMaxTemp] = useState<number>(items.parts.day.temp_max)
     const [minTemp, setMinTemp] = useState<number>(items.parts.day.temp_min)
 
-    const openWeekDay = () =>{        
+
+
+    const openWeekDay = () => {     
         setCheckWeekDayIndex(index)
+    }
+
+    const clickElement = (e: any) => {
+        setCardStatus((prev) => !prev)
+        openWeekDay()
     }
 
     const getDateFormat = (dataType: any) => {
@@ -88,47 +98,52 @@ const WeekCard: React.FC<IPropsWeek> = ({ items, setCheckWeekDayIndex, index }) 
     }
 
 
+
+
     return (
         <div
-            onClick={(e) => openWeekDay()}
-        className={cx(
-            weekCard['weekCard']
-        )}>
+            onClick={(e) => { clickElement(e) }}
+            className={cx(
+                weekCard['week-card'],
+                {
+                    [weekCard['week-card-checked']]: cardStatus ,
+                }
+            )}>
             <div className={cx(
-                weekCard['weekCard__wrapper-day']
+                weekCard['week-card__wrapper-day']
             )}>
                 <p className={cx(
-                    weekCard['weekCard__wrapper-day_name-week']
+                    weekCard['week-card__wrapper-day_name-week']
                 )}>
                     {getDateFormat(items.date).week}
                 </p>
                 <p className={cx(
-                    weekCard['weekCard__wrapper-day_day']
+                    weekCard['week-card__wrapper-day_day']
                 )}>
                     {getDateFormat(items.date).day} {checkMonth(getDateFormat(items.date))}
                 </p>
             </div>
             <div className={cx(
-                weekCard['weekCard__wrapper-icon']
+                weekCard['week-card__wrapper-icon']
             )}>
                 <img
                     className={cx(
-                        weekCard['weekCard__wrapper-icon_icon']
+                        weekCard['week-card__wrapper-icon_icon']
                     )}
                     src={`https://yastatic.net/weather/i/icons/funky/dark/${items.parts.day.icon}.svg`} alt="" />
             </div>
             <div className={cx(
-                weekCard['weekCard__wrapper-temp']
+                weekCard['week-card__wrapper-temp']
             )}>
                 <p className={cx(
-                    weekCard['weekCard__wrapper-temp_max']
+                    weekCard['week-card__wrapper-temp_max']
                 )}>
                     {
                         maxTemp > 0 ? ('+' + maxTemp) : maxTemp
                     }°
                 </p>
                 <p className={cx(
-                    weekCard['weekCard__wrapper-temp_min']
+                    weekCard['week-card__wrapper-temp_min']
                 )}>
                     {
                         minTemp > 0 ? ('+' + minTemp) : minTemp
