@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import cx from 'classnames'
 import axios from 'axios'
 
@@ -11,8 +11,6 @@ import yandex from './yandex.module.scss'
 
 
 const Yandex: React.FC = () => {
-    const [checkStatusWeekDay, setCheckStatusWeekDay] = useState<boolean>(false)
-
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
@@ -20,12 +18,20 @@ const Yandex: React.FC = () => {
     const [objGeo, setObjGeo] = useState<any>()
     const [objFact, setObjFact] = useState<any>()
     const [objWeek, setObjWeek] = useState<any>()
-    const [checkWeekDayIndex, setCheckWeekDayIndex] = useState<number | null>(null)
 
     const API_KEY = process.env.REACT_APP_API_KEY;
 
-    const checkWeekDay = () => {
-
+    const changeStatusHandler = (indArr: number, arr: any) => {
+        const newArr = arr.map((el: any, indEl: number) => { 
+            if (indEl === indArr){
+                el.statusCheck = !el.statusCheck
+            }
+            else{
+                el.statusCheck = false
+            }
+            return el
+         })
+        setObjWeek(newArr)
     }
 
     const getWether = (lat: string | number, lon: string | number) => {
@@ -40,10 +46,13 @@ const Yandex: React.FC = () => {
             .then((res) => {
                 console.log(res)
                 const dataObj = res.data
+                const dataForecastsWithStatus = dataObj.forecasts.map((item: any) => {
+                    return { ...item, statusCheck: false }
+                })
                 setDataWhether(dataObj)
                 setObjGeo(dataObj.geo_object)
                 setObjFact(dataObj.fact)
-                setObjWeek(dataObj.forecasts)
+                setObjWeek(dataForecastsWithStatus)
                 setLoadStatus(true)
             })
             .catch((err) => {
@@ -58,19 +67,19 @@ const Yandex: React.FC = () => {
         //     console.log(data);
     }
 
-    const openWeekStatus = (objWeek: any) => {
-        objWeek.map((items: any) => {
-            return (
-                <div className="">
-                    {items.date}
-                </div>
-            )
-        })
-    }
+    // const openWeekStatus = (objWeek: any) => {
+    //     objWeek.map((items: any) => {
+    //         return (
+    //             <div className="">
+    //                 {items.date}
+    //             </div>
+    //         )
+    //     })
+    // }
 
-    if (loadStatus) {
-        openWeekStatus(objWeek)
-    }
+    // if (loadStatus) {
+    //     openWeekStatus(objWeek)
+    // }
 
 
     useEffect(() => {
@@ -92,38 +101,36 @@ const Yandex: React.FC = () => {
                 dataWhether={dataWhether}
             />
             <InfoBlock>
-                {loadStatus ?
-                    <>
-                        {objWeek.map((items: any, index: number) => {
 
-                            return (
-                                <WeekCard
-                                    key={items.date_ts}
-                                    items={items}
+                {
+                    loadStatus ? (
+                        <WeekCard
+                            objWeek={objWeek}
+                            changeStatusHandler={changeStatusHandler}
+                        />
 
-                                    index={index}
-                                    checkWeekDayIndex={checkWeekDayIndex}
-                                    setCheckWeekDayIndex={setCheckWeekDayIndex}
-                                />
-                            )
-                        })}
-
-                        {checkWeekDayIndex !== null ?
-                            <WeekGraphic
-                                objWeekDay={objWeek}
-                                checkWeekDayIndex={checkWeekDayIndex}
-                            />
-                            :
-                            ('')
-                        }
-                    </>
-                    :
-                    (
+                    ) : (
                         <p>
                             Loading...
                         </p>
                     )
                 }
+
+
+
+                {/* 
+                <WeekGraphic
+                    objWeekDay={objWeek}
+                    checkWeekDayIndex={checkWeekDayIndex}
+                /> */}
+
+
+
+
+
+
+
+
             </InfoBlock>
 
         </div>

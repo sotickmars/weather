@@ -3,29 +3,11 @@ import cx from 'classnames'
 import weekCard from './weekCard.module.scss'
 
 type IPropsWeek = {
-    items: any
-    index: number
-    checkWeekDayIndex:any
-    setCheckWeekDayIndex: (value: any) => void
-    // setCheckStatusWeekDay: (value: any) => void
+    objWeek: any
+    changeStatusHandler: (indArr: number, arr: any) => void
 }
 
-const WeekCard: React.FC<IPropsWeek> = ({ items, checkWeekDayIndex, setCheckWeekDayIndex, index }) => {
-    const [cardStatus, setCardStatus] = useState<boolean>(false)
-    // const [cardStatusIndex, setCardStatusIndex] = useState<number>(index)
-    const [maxTemp, setMaxTemp] = useState<number>(items.parts.day.temp_max)
-    const [minTemp, setMinTemp] = useState<number>(items.parts.day.temp_min)
-
-
-
-    const openWeekDay = () => {     
-        setCheckWeekDayIndex(index)
-    }
-
-    const clickElement = (e: any) => {
-        setCardStatus((prev) => !prev)
-        openWeekDay()
-    }
+const WeekCard: React.FC<IPropsWeek> = ({ objWeek, changeStatusHandler }) => {
 
     const getDateFormat = (dataType: any) => {
 
@@ -97,59 +79,71 @@ const WeekCard: React.FC<IPropsWeek> = ({ items, checkWeekDayIndex, setCheckWeek
         }
     }
 
-
-
-
     return (
-        <div
-            onClick={(e) => { clickElement(e) }}
-            className={cx(
-                weekCard['week-card'],
-                {
-                    [weekCard['week-card-checked']]: cardStatus ,
-                }
-            )}>
-            <div className={cx(
-                weekCard['week-card__wrapper-day']
-            )}>
-                <p className={cx(
-                    weekCard['week-card__wrapper-day_name-week']
-                )}>
-                    {getDateFormat(items.date).week}
-                </p>
-                <p className={cx(
-                    weekCard['week-card__wrapper-day_day']
-                )}>
-                    {getDateFormat(items.date).day} {checkMonth(getDateFormat(items.date))}
-                </p>
-            </div>
-            <div className={cx(
-                weekCard['week-card__wrapper-icon']
-            )}>
-                <img
-                    className={cx(
-                        weekCard['week-card__wrapper-icon_icon']
-                    )}
-                    src={`https://yastatic.net/weather/i/icons/funky/dark/${items.parts.day.icon}.svg`} alt="" />
-            </div>
-            <div className={cx(
-                weekCard['week-card__wrapper-temp']
-            )}>
-                <p className={cx(
-                    weekCard['week-card__wrapper-temp_max']
-                )}>
-                    {
-                        maxTemp > 0 ? ('+' + maxTemp) : maxTemp
-                    }°
-                </p>
-                <p className={cx(
-                    weekCard['week-card__wrapper-temp_min']
-                )}>
-                    {
-                        minTemp > 0 ? ('+' + minTemp) : minTemp
-                    }°
-                </p>
-            </div>
+        <div className={cx(
+            weekCard['week-card-section']
+        )}>
+
+            {
+                objWeek.length && objWeek.map((item: any, indexObj: number) => {
+                    if (item) {
+                        return (
+                            <div
+                                key={item.date_ts}
+                                onClick={() => changeStatusHandler(indexObj, objWeek)}
+                                className={cx(
+                                    weekCard['week-card'], {
+                                    [weekCard['week-card-checked']]: item?.statusCheck
+                                }
+                                )}>
+                                <div className={cx(
+                                    weekCard['week-card__wrapper-day']
+                                )}>
+                                    <p className={cx(
+                                        weekCard['week-card__wrapper-day_name-week']
+                                    )}>
+                                        {getDateFormat(item.date).week}
+                                    </p>
+                                    <p className={cx(
+                                        weekCard['week-card__wrapper-day_day']
+                                    )}>
+                                        {getDateFormat(item.date).day} {checkMonth(getDateFormat(item.date))}
+                                    </p>
+                                </div>
+                                <div className={cx(
+                                    weekCard['week-card__wrapper-icon']
+                                )}>
+                                    <img
+                                        className={cx(
+                                            weekCard['week-card__wrapper-icon_icon']
+                                        )}
+                                        src={`https://yastatic.net/weather/i/icons/funky/dark/${item.parts.day.icon}.svg`} alt="" />
+                                </div>
+                                <div className={cx(
+                                    weekCard['week-card__wrapper-temp']
+                                )}>
+                                    <p className={cx(
+                                        weekCard['week-card__wrapper-temp_max']
+                                    )}>
+                                        {
+                                            item.parts.day.temp_max > 0 ? ('+' + item.parts.day.temp_max) : item.parts.day.temp_max
+                                        }°
+                                    </p>
+                                    <p className={cx(
+                                        weekCard['week-card__wrapper-temp_min']
+                                    )}>
+                                        {
+                                            item.parts.day.temp_min > 0 ? ('+' + item.parts.day.temp_min) : item.parts.day.temp_min
+                                        }°
+                                    </p>
+                                </div>
+                            </div>
+                        )
+                    }
+                })
+            }
+
+
         </div>
     )
 }
