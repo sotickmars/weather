@@ -11,6 +11,8 @@ import yandex from './yandex.module.scss'
 
 
 const Yandex: React.FC = () => {
+
+
     const [loadStatus, setLoadStatus] = useState<boolean>(false)
     const [pointLat, setPointLat] = useState<string | number>('52.2138')
     const [pointLon, setPointLon] = useState<string | number>('24.3564')
@@ -18,20 +20,36 @@ const Yandex: React.FC = () => {
     const [objGeo, setObjGeo] = useState<any>()
     const [objFact, setObjFact] = useState<any>()
     const [objWeek, setObjWeek] = useState<any>()
+    const [graphicWeek, setGraphicWeek] = useState<any>({
+        indWeek: null,
+        statusWeek:false
+    })
 
     const API_KEY = process.env.REACT_APP_API_KEY;
 
     const changeStatusHandler = (indArr: number, arr: any) => {
-        const newArr = arr.map((el: any, indEl: number) => { 
-            if (indEl === indArr){
+        const newArr = arr.map((el: any, indEl: number) => {
+            if (indEl === indArr) {
                 el.statusCheck = !el.statusCheck
+                if (el.statusCheck){
+                    setGraphicWeek({
+                        indWeek: indEl,
+                        statusWeek: true
+                    })
+                }else{
+                    setGraphicWeek({
+                        indWeek: null,
+                        statusWeek: false
+                    })
+                }
             }
-            else{
+            else {
                 el.statusCheck = false
             }
             return el
-         })
+        })
         setObjWeek(newArr)
+        
     }
 
     const getWether = (lat: string | number, lon: string | number) => {
@@ -58,28 +76,7 @@ const Yandex: React.FC = () => {
             .catch((err) => {
                 console.log(err)
             })
-
-        // const data = await axios.get(url, {
-        //         headers: {
-        //             'X-Yandex-API-Key': `${API_KEY}`,
-        //         }
-        //     })
-        //     console.log(data);
     }
-
-    // const openWeekStatus = (objWeek: any) => {
-    //     objWeek.map((items: any) => {
-    //         return (
-    //             <div className="">
-    //                 {items.date}
-    //             </div>
-    //         )
-    //     })
-    // }
-
-    // if (loadStatus) {
-    //     openWeekStatus(objWeek)
-    // }
 
 
     useEffect(() => {
@@ -104,10 +101,19 @@ const Yandex: React.FC = () => {
 
                 {
                     loadStatus ? (
-                        <WeekCard
-                            objWeek={objWeek}
-                            changeStatusHandler={changeStatusHandler}
-                        />
+                        <>
+                            <WeekCard
+                                objWeek={objWeek}
+                                changeStatusHandler={changeStatusHandler}
+                            />
+                            {
+                                graphicWeek.statusWeek &&
+                                <WeekGraphic
+                                    indexWeek={graphicWeek.indWeek}
+                                    objWeekDay={objWeek}
+                                />
+                            }
+                        </>
 
                     ) : (
                         <p>
@@ -118,11 +124,8 @@ const Yandex: React.FC = () => {
 
 
 
-                {/* 
-                <WeekGraphic
-                    objWeekDay={objWeek}
-                    checkWeekDayIndex={checkWeekDayIndex}
-                /> */}
+
+
 
 
 

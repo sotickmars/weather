@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import cx from 'classnames'
 import weekCard from './weekCard.module.scss'
 
@@ -8,7 +8,7 @@ type IPropsWeek = {
 }
 
 const WeekCard: React.FC<IPropsWeek> = ({ objWeek, changeStatusHandler }) => {
-
+    
     const getDateFormat = (dataType: any) => {
 
         const reverseDate = dataType.split('-').join(', ');
@@ -80,6 +80,7 @@ const WeekCard: React.FC<IPropsWeek> = ({ objWeek, changeStatusHandler }) => {
     }
 
     return (
+
         <div className={cx(
             weekCard['week-card-section']
         )}>
@@ -145,6 +146,7 @@ const WeekCard: React.FC<IPropsWeek> = ({ objWeek, changeStatusHandler }) => {
 
 
         </div>
+
     )
 }
 
