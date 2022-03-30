@@ -6,7 +6,8 @@ import YandexSelect from './YandexSelect/YandexSelect'
 import InfoBlockDay from './InfoBlockDay/InfoBlockDay'
 import InfoBlock from './InfoBlock/InfoBlock'
 import WeekCard from './WeekCard/WeekCard'
-import WeekGraphic from './WeekGraphic/WeekGraphic'
+import WeekInfo from './WeekInfo/WeekInfo'
+import WeekGraphic from './WeekGraphic/WeekGraphic';
 import yandex from './yandex.module.scss'
 
 
@@ -22,7 +23,7 @@ const Yandex: React.FC = () => {
     const [objWeek, setObjWeek] = useState<any>()
     const [graphicWeek, setGraphicWeek] = useState<any>({
         indWeek: null,
-        statusWeek:false
+        statusWeek: false
     })
 
     const API_KEY = process.env.REACT_APP_API_KEY;
@@ -31,12 +32,12 @@ const Yandex: React.FC = () => {
         const newArr = arr.map((el: any, indEl: number) => {
             if (indEl === indArr) {
                 el.statusCheck = !el.statusCheck
-                if (el.statusCheck){
+                if (el.statusCheck) {
                     setGraphicWeek({
                         indWeek: indEl,
                         statusWeek: true
                     })
-                }else{
+                } else {
                     setGraphicWeek({
                         indWeek: null,
                         statusWeek: false
@@ -49,7 +50,7 @@ const Yandex: React.FC = () => {
             return el
         })
         setObjWeek(newArr)
-        
+
     }
 
     const getWether = (lat: string | number, lon: string | number) => {
@@ -79,6 +80,7 @@ const Yandex: React.FC = () => {
     }
 
 
+
     useEffect(() => {
         getWether(pointLat, pointLon)
     }, [])
@@ -90,7 +92,7 @@ const Yandex: React.FC = () => {
 
         }
         )}>
-            <YandexSelect setPointLat={setPointLat} setPointLon={setPointLon} getWether={getWether} />
+            <YandexSelect setPointLat={setPointLat} setPointLon={setPointLon} getWether={getWether} setGraphicWeek={setGraphicWeek} />
             <InfoBlockDay
                 loadStatus={loadStatus}
                 objGeo={objGeo}
@@ -108,10 +110,15 @@ const Yandex: React.FC = () => {
                             />
                             {
                                 graphicWeek.statusWeek &&
-                                <WeekGraphic
-                                    indexWeek={graphicWeek.indWeek}
-                                    objWeekDay={objWeek}
-                                />
+                                <>
+                                    <WeekInfo
+                                        indexWeek={graphicWeek.indWeek}
+                                        objWeekDay={objWeek}
+                                    />
+                                    <WeekGraphic 
+                                        objWeek={objWeek[graphicWeek.indWeek]}
+                                    />
+                                </>
                             }
                         </>
 
@@ -121,19 +128,6 @@ const Yandex: React.FC = () => {
                         </p>
                     )
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
             </InfoBlock>
 
         </div>

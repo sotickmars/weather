@@ -37,7 +37,7 @@ const objCity = [
     },
 ]
 
-const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getWether }) => {
+const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getWether, setGraphicWeek }) => {
 
     const [selectValue, setSelectValue] = useState<string>('')
     const [statusSelect, setStatusSelect] = useState<boolean>(false)
@@ -47,6 +47,10 @@ const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getW
         setPointLat(item.lat)
         setPointLon(item.lon)
         getWether(item.lat, item.lon)
+        setGraphicWeek({
+            indWeek: null,
+            statusWeek: false
+        })
     }
 
     const openSelect = (value: boolean) => {

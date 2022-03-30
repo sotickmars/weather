@@ -1,0 +1,88 @@
+.week-info{
+    padding: 1rem;
+    margin-top: 1rem;
+    &__wrapper-info{
+        display: flex;
+        &-main{
+            width: 50%;
+            &_title{
+                display: flex;
+                align-items: center;
+                text-transform: uppercase;
+                &-week{
+                    font-weight: 600;
+                    font-size: 1.5rem;
+                }
+                &-cloud{
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    text-transform: none;
+                    padding-left: 0.5rem;
+                }
+            }
+            &_icon{
+                display: flex;
+                align-items: center;
+                &-img{
+                    width: 5rem;
+                    margin-right: 1rem;
+                }
+                &-max-temp{
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                    margin-right: 0.5rem;
+                }
+                &-min-temp{
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                    color: #505050;
+                }
+
+            }
+            &_type-weather{
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+        }
+        &-more{
+            width: 50%;
+            &_sun-time{
+                position: relative;
+                width: 10rem;
+                height: 5rem;
+                border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+                border-top:1px dashed #000;            
+                border-left:1px dashed #000;            
+                border-right:1px dashed #000;     
+                &-sunrise{
+                    padding-top: 0.5rem;
+                    transform: translateX(50%);
+                    position: absolute;
+                    top: 100%;
+                    right: 100%;
+                    p{
+                        font-weight: 500;
+                        
+                    }
+                    img{
+                        width: 3rem;
+                    }
+                }       
+                &-sunset{
+                    padding-top: 0.5rem;
+                    transform: translateX(-50%);
+                    position: absolute;
+                    top: 100%;
+                    left: 100%;
+                    p{
+                        font-weight: 500;
+                        
+                    }
+                    img{
+                        width: 3rem;
+                    }
+                }       
+            }
+        }
+    }
+}
