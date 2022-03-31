@@ -1,10 +1,13 @@
 .week-info{
-    padding: 1rem;
     margin-top: 1rem;
     &__wrapper-info{
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
         &-main{
-            width: 50%;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: inset 0 0 20px #fff;
             &_title{
                 display: flex;
                 align-items: center;
@@ -45,15 +48,23 @@
             }
         }
         &-more{
-            width: 50%;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: inset 0 0 20px #fff;
+            display: flex;
             &_sun-time{
+                margin-left: 2rem;
+                margin-bottom: 5rem;
                 position: relative;
                 width: 10rem;
                 height: 5rem;
                 border-radius: 50% 50% 0 0 / 100% 100% 0 0;
                 border-top:1px dashed #000;            
                 border-left:1px dashed #000;            
-                border-right:1px dashed #000;     
+                border-right:1px dashed #000;  
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;   
                 &-sunrise{
                     padding-top: 0.5rem;
                     transform: translateX(50%);
@@ -81,8 +92,24 @@
                     img{
                         width: 3rem;
                     }
-                }       
+                }   
+                &-full-day{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    p{
+                        &:first-child{
+                            color: #505050;
+                            font-weight: 500;
+                            font-size: 0.8rem;
+                        }
+                        &:last-child{
+                            font-weight: 500;
+                        }
+                    }
+                }    
             }
+
         }
     }
 }

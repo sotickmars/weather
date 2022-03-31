@@ -10,11 +10,18 @@ type IPropsWeekGraphic = {
 }
 
 const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, indexWeek }) => {
-
     const dayInWeek = objWeekDay[indexWeek]
     const dayParamsInWeek = dayInWeek.parts.day
     
+    console.log(dayInWeek);
     
+    const getLongDay = (sunrise: any, sunset: any) => {
+        const getSunRiseMin = sunrise.split(':')[0] * 60 + sunrise.split(':')[1] * 1
+        const getSunSetMin = sunset.split(':')[0] * 60 + sunset.split(':')[1] * 1
+        const fullTumeDayMin = getSunSetMin - getSunRiseMin
+        const dullTimeDay = `${Math.trunc(fullTumeDayMin / 60)}ч ${fullTumeDayMin % 60}мин`
+        return dullTimeDay;
+    }
 
     const checkStatusWeather = (key: number) => {
 
@@ -180,12 +187,18 @@ const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, indexWeek }) => {
                             <p>{dayInWeek.sunset}</p>
                             <img src={sunSetSvg} alt="" />
                         </div>
+                        <div className={cx(
+                            weekInfo['week-info__wrapper-info-more_sun-time-full-day']
+                        )}>
+                            <p>Световой день:</p>
+                            <p>{getLongDay(dayInWeek.sunrise, dayInWeek.sunset)}</p>
+                        </div>
                     </div>
                 </div>
 
             </div>
-            
-            
+
+
         </div>
     )
 }

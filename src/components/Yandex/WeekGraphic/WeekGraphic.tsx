@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { ResponsiveContainer, AreaChart, Legend, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts'
+import CloudnessDay from '../CloudnessDay/CloudnessDay'
 import weekGraphic from './weekGraphic.module.scss'
 import graphic from '../InfoBlockDay/Graphic/graphic.module.scss'
 
@@ -23,6 +24,7 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
 
     checkHoursData(objWeek.hours)
 
+    // console.log(objWeek.hours);
 
 
     const CustomTooltip = ({ active, payload, label }: {
@@ -54,6 +56,16 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
         return null
     }
 
+    const houtsCloud = () =>{
+        return(
+            <div className="">
+                123
+            </div>
+        )
+    }
+
+
+
     return (
         <div className={cx(
             weekGraphic['week-graphic']
@@ -76,8 +88,6 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
                             <Area dataKey={'temp'} type="monotone" stroke="#fdc200" fill="url(#color)" />
                             <XAxis dataKey={'hours'} />
                             <YAxis
-                                // dataKey={'temp'}
-                                // axisLine={false}
                                 tickLine={false}
                                 tickCount={5}
                             />
@@ -89,7 +99,7 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
                     <p>НЕТ ДАННЫХ СИМАКОВ</p>
                 )
                 }
-            
+            <CloudnessDay obj={objWeek.hours}/>            
         </div>
     )
 

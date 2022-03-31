@@ -1,6 +1,7 @@
 import React from "react";
 import cx from 'classnames';
 import { ResponsiveContainer, AreaChart, Legend, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts'
+import CloudnessDay from '../../CloudnessDay/CloudnessDay'
 import graphic from './graphic.module.scss'
 
 type IPropsGraphic = {
@@ -34,10 +35,10 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
                         graphic['tooltip__wrapper']
                     )}>
                         <li>
-                            <p>С°:</p><p>{payload[0].value}</p>
+                            <p>С°:</p><p>{payload[0].value}°</p>
                         </li>
                         <li>
-                            <p>Время:</p><p>{label}</p>
+                            <p>Время:</p><p>{label} ч.</p>
                         </li>
                     </ul>
                 </div>
@@ -75,6 +76,7 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
                     <CartesianGrid opacity={0.5} vertical={false} />
                 </AreaChart>
             </ResponsiveContainer >
+            <CloudnessDay obj={dataWhether.forecasts[0].hours} />
 
         </div>
     )
