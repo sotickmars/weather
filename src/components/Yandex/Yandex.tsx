@@ -114,6 +114,7 @@ const Yandex: React.FC = () => {
                                     <WeekInfo
                                         indexWeek={graphicWeek.indWeek}
                                         objWeekDay={objWeek}
+                                        dataWhether={dataWhether}
                                     />
                                     <WeekGraphic 
                                         objWeek={objWeek[graphicWeek.indWeek]}

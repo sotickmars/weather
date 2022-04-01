@@ -3,20 +3,21 @@ import cx from 'classnames'
 import cloudnessDay from './cloudnessDay.module.scss'
 
 type IPropsCloudness = {
-    obj:any
+    obj: any
 }
 
-const CloudnessDay: React.FC<IPropsCloudness> = ({obj}) => { 
+const CloudnessDay: React.FC<IPropsCloudness> = ({ obj }) => {
 
-    return(
+    return (
         <div
             className={cx(cloudnessDay['cloudness-day__wrapper-cloud'])}
         >
             {
-                obj.map((item: any) => {
+                obj.map((item: any, ind: number) => {
                     return (
 
                         <img
+                            key={ind}
                             className={cx(cloudnessDay['cloudness-day__wrapper-cloud_cloud'])}
                             src={`https://yastatic.net/weather/i/icons/funky/dark/${item.icon}.svg`}
                             alt="" />

@@ -2,19 +2,52 @@ import React, { useState } from "react";
 import cx from 'classnames'
 import sunRiseSvg from '../../../assets/svg/sunrise.svg'
 import sunSetSvg from '../../../assets/svg/sunset.svg'
+import sunSvg from '../../../assets/svg/sun.svg'
 import weekInfo from './weekInfo.module.scss'
 
 type IPropsWeekGraphic = {
     objWeekDay: any
+    dataWhether: any
     indexWeek: number
 }
 
-const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, indexWeek }) => {
+const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, dataWhether, indexWeek }) => {
     const dayInWeek = objWeekDay[indexWeek]
     const dayParamsInWeek = dayInWeek.parts.day
-    
-    console.log(dayInWeek);
-    
+
+    const timeConverter = (unixTime: any) => {
+        const myDate = new Date(unixTime * 1000)
+        const timeHM = `${myDate.getHours()}:${myDate.getMinutes()}`
+        return timeHM;
+    }
+
+
+    const statusSun = (sunrise: any, sunset: any, daytime: any) => {
+        const getSunRiseMin = sunrise.split(':')[0] * 60 + sunrise.split(':')[1] * 1
+        const getSunSetMin = sunset.split(':')[0] * 60 + sunset.split(':')[1] * 1
+        const getDayMin = daytime.split(':')[0] * 60 + daytime.split(':')[1] * 1
+
+        const visibleDay = getSunSetMin - getSunRiseMin
+        const degPoint = 180 / visibleDay
+
+        if (getDayMin > getSunRiseMin && getDayMin < getSunSetMin) {
+            const pointDay = getDayMin - getSunRiseMin
+            const degDay = degPoint * pointDay
+            return degDay
+        }
+        return 0
+    }
+
+    const getRealTime = () => {
+        const nowTime = new Date();
+        console.log(nowTime);
+        
+        const timeHM = `${nowTime.getHours()}:${nowTime.getMinutes()}`
+        return timeHM;
+    }
+
+    const deg = () => statusSun(dayInWeek.sunrise, dayInWeek.sunset, timeConverter(dataWhether.now));
+
     const getLongDay = (sunrise: any, sunset: any) => {
         const getSunRiseMin = sunrise.split(':')[0] * 60 + sunrise.split(':')[1] * 1
         const getSunSetMin = sunset.split(':')[0] * 60 + sunset.split(':')[1] * 1
@@ -193,6 +226,22 @@ const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, indexWeek }) => {
                             <p>Световой день:</p>
                             <p>{getLongDay(dayInWeek.sunrise, dayInWeek.sunset)}</p>
                         </div>
+                        {deg() < 180 && deg() > 0 && deg() ?
+                            (
+                                <div
+                                    style={{ transform: `rotate(${deg()}deg)` }}
+                                    className={cx(
+                                        weekInfo['week-info__wrapper-info-more_sun-time-circle']
+                                    )}>
+                                    {/* <p
+                                        style={{ transform: `rotate(-${deg()}deg)` }}
+                                    >{getRealTime()}</p> */}
+                                    <img src={sunSvg} alt="" />
+                                </div>
+                            ) : ('')
+
+                        }
+
                     </div>
                 </div>
 
