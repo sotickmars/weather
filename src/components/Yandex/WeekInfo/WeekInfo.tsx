@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Component, useEffect } from "react";
 import cx from 'classnames'
 import sunRiseSvg from '../../../assets/svg/sunrise.svg'
 import sunSetSvg from '../../../assets/svg/sunset.svg'
@@ -36,14 +36,6 @@ const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, dataWhether, indexW
             return degDay
         }
         return 0
-    }
-
-    const getRealTime = () => {
-        const nowTime = new Date();
-        console.log(nowTime);
-        
-        const timeHM = `${nowTime.getHours()}:${nowTime.getMinutes()}`
-        return timeHM;
     }
 
     const deg = () => statusSun(dayInWeek.sunrise, dayInWeek.sunset, timeConverter(dataWhether.now));
@@ -145,6 +137,8 @@ const WeekInfo: React.FC<IPropsWeekGraphic> = ({ objWeekDay, dataWhether, indexW
 
         return dayParams
     }
+
+    
 
     return (
         <div className={cx(

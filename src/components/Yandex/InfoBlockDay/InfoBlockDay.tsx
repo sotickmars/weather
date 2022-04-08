@@ -4,7 +4,9 @@ import { IPropsInfoBlockDay } from '../../../types/type'
 import DropsSvg from '../../../assets/svg/drops.svg'
 import BarometrSvg from '../../../assets/svg/barometer.svg'
 import WindSvg from '../../../assets/svg/wind.svg'
+import WindGustSvg from '../../../assets/svg/wind-gust.svg'
 import WindDirSvg from '../../../assets/svg/wind-dir.svg'
+import WaterTempSvg from '../../../assets/svg/temp-water.svg'
 
 import infoBlockDay from './infoBlockDay.module.scss'
 import PartInfo from './PartInfo/PartInfo'
@@ -157,9 +159,12 @@ const InfoBlockDay: React.FC<IPropsInfoBlockDay> = ({
                     <div className={cx(
                         infoBlockDay['info-block__wrapper-info']
                     )}>
-                        <PartInfo img={DropsSvg} statusWeather={objFact.humidity} unit={'%'} />
+                        <PartInfo img={DropsSvg} statusWeather={objFact.humidity} unit={'% влажность'} />
+                        {objFact.temp_water && 
+                            <PartInfo img={WaterTempSvg} statusWeather={objFact.temp_water} unit={'°С воды'} />}
                         <PartInfo img={BarometrSvg} statusWeather={objFact.pressure_mm} unit={'мм рт. ст.'} />
                         <PartInfo img={WindSvg} statusWeather={objFact.wind_speed} unit={'м.с.'} />
+                        <PartInfo img={WindGustSvg} statusWeather={objFact.wind_gust} unit={'м.с. порывы ветра'} />
                         <PartInfo img={WindDirSvg} statusWeather={checkStatusWind(objFact.wind_dir)} unit={'направление'} />
                     </div>
                     <Graphic dataWhether={dataWhether}/>

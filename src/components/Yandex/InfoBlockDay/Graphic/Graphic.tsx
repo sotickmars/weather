@@ -5,7 +5,8 @@ import CloudnessDay from '../../CloudnessDay/CloudnessDay'
 import graphic from './graphic.module.scss'
 
 type IPropsGraphic = {
-    dataWhether: any
+    dataWhether: any,
+    index?: number
 }
 
 const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
@@ -17,6 +18,7 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
             data.push({
                 hours: items.hour,
                 temp: items.temp,
+                tempFeels: items.feels_like,
             })
         })
     }
@@ -35,10 +37,13 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
                         graphic['tooltip__wrapper']
                     )}>
                         <li>
-                            <p>С°:</p><p>{payload[0].value}°</p>
+                            <p>Температура С°:</p><p>{payload[1].value}</p>
                         </li>
                         <li>
-                            <p>Время:</p><p>{label} ч.</p>
+                            <p>Ощущаемая С°:</p><p>{payload[0].value}</p>
+                        </li>
+                        <li>
+                            <p>Время:</p><p>{label}</p>
                         </li>
                     </ul>
                 </div>
@@ -61,23 +66,25 @@ const Graphic: React.FC<IPropsGraphic> = ({ dataWhether }) => {
                     <defs>
                         <linearGradient id='color' x1='0' y1='0' x2='0' y2='1'>
                             <stop offset='0%' stopColor="#fdc200" stopOpacity={0.9} />
-                            <stop offset='100%' stopColor="#fdc200" stopOpacity={0.3} />
+                            <stop offset='100%' stopColor="#fdc200" stopOpacity={0.0} />
+                        </linearGradient>
+                        <linearGradient id='tempFeels' x1='0' y1='0' x2='0' y2='1'>
+                            <stop offset='0%' stopColor="#e57d00" stopOpacity={0.0} />
+                            <stop offset='100%' stopColor="#e57d00" stopOpacity={0.0} />
                         </linearGradient>
                     </defs>
+                    <Area dataKey={'tempFeels'} type="monotone" stroke="#e57d00" fill="url(#tempFeels)" />
                     <Area dataKey={'temp'} type="monotone" stroke="#fdc200" fill="url(#color)" />
                     <XAxis dataKey={'hours'} />
                     <YAxis
-                        dataKey={'temp'}
-                        axisLine={false}
                         tickLine={false}
-                        tickCount={8}
+                        tickCount={5}
                     />
                     <Tooltip content={<CustomTooltip active={null} payload={null} label={null} />} />
                     <CartesianGrid opacity={0.5} vertical={false} />
                 </AreaChart>
             </ResponsiveContainer >
             <CloudnessDay obj={dataWhether.forecasts[0].hours} />
-
         </div>
     )
 }

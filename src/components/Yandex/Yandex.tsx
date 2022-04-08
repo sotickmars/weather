@@ -50,12 +50,14 @@ const Yandex: React.FC = () => {
             return el
         })
         setObjWeek(newArr)
-
     }
 
-    const getWether = (lat: string | number, lon: string | number) => {
+    const getWether = async (lat: string | number, lon: string | number) => {
         setLoadStatus(false)
         const url = `/v2/forecast?lat=${lat}&lon=${lon}&[limit=2]`
+        ///
+        
+        
         axios
             .get(url, {
                 headers: {
@@ -63,6 +65,7 @@ const Yandex: React.FC = () => {
                 }
             })
             .then((res) => {
+
                 console.log(res)
                 const dataObj = res.data
                 const dataForecastsWithStatus = dataObj.forecasts.map((item: any) => {
@@ -83,7 +86,7 @@ const Yandex: React.FC = () => {
 
     useEffect(() => {
         getWether(pointLat, pointLon)
-    }, [])
+    }, [pointLat, pointLon])
 
 
     return (

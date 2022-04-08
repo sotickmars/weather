@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { IPropsPosition } from '../../../types/type'
 
 import yandexSelect from './yandexSelect.module.scss'
+import Nav from '../../../components/Nav/Nav';
 
 const objCity = [
     {
@@ -67,6 +68,7 @@ const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getW
                 <p className={cx(
                     yandexSelect['yandex-select__wrapper_title'],
                 )}>Ввыберите город из списка</p>
+
                 <div className={cx(
                     yandexSelect['yandex-select__wrapper-select'],
                 )}>
@@ -96,6 +98,8 @@ const YandexSelect: React.FC<IPropsPosition> = ({ setPointLat, setPointLon, getW
                     )}
 
                 </div>
+
+                <Nav />
             </div>
         </div>
     )

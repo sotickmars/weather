@@ -8,6 +8,7 @@ import graphic from '../InfoBlockDay/Graphic/graphic.module.scss'
 type IPropsGraphic = {
     objWeek: any,
 }
+
 const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
 
     const data: any = []
@@ -18,13 +19,12 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
                 hours: index,
                 temp: items.temp,
                 tempFeels: items.feels_like,
+                tempWater: items.temp_water,
             })
         })
     }
 
     checkHoursData(objWeek.hours)
-
-    // console.log(objWeek.hours);
 
 
     const CustomTooltip = ({ active, payload, label }: {
@@ -56,16 +56,6 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
         return null
     }
 
-    const houtsCloud = () =>{
-        return(
-            <div className="">
-                123
-            </div>
-        )
-    }
-
-
-
     return (
         <div className={cx(
             weekGraphic['week-graphic']
@@ -83,7 +73,12 @@ const WeekGraphic: React.FC<IPropsGraphic> = ({ objWeek }) => {
                                     <stop offset='0%' stopColor="#e57d00" stopOpacity={0.0} />
                                     <stop offset='100%' stopColor="#e57d00" stopOpacity={0.0} />
                                 </linearGradient>
+                                <linearGradient id='tempWater' x1='0' y1='0' x2='0' y2='1'>
+                                    <stop offset='0%' stopColor="#0a5ebd" stopOpacity={0.0} />
+                                    <stop offset='100%' stopColor="#0a5ebd" stopOpacity={0.0} />
+                                </linearGradient>
                             </defs>
+                            <Area dataKey={'tempWater'} type="monotone" stroke="#0a5ebd" fill="url(#tempWater)" />
                             <Area dataKey={'tempFeels'} type="monotone" stroke="#e57d00" fill="url(#tempFeels)" />
                             <Area dataKey={'temp'} type="monotone" stroke="#fdc200" fill="url(#color)" />
                             <XAxis dataKey={'hours'} />
