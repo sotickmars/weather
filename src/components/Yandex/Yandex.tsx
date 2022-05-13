@@ -54,10 +54,8 @@ const Yandex: React.FC = () => {
 
     const getWether = async (lat: string | number, lon: string | number) => {
         setLoadStatus(false)
-        const url = `/v2/forecast?lat=${lat}&lon=${lon}&[limit=2]`
-        ///
-        
-        
+        const url = `/v2/forecast?lat=${lat}&lon=${lon}&[limit=2]`        
+
         axios
             .get(url, {
                 headers: {
